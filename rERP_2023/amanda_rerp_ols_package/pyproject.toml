@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amanda_rerp_ols"
+version = "0.0.2"
+authors = [
+  { name="Szu-Chi Amanda Lin", email="amanda.lin0103@gmail.com" },
+]
+description = "An extension of mne.stats.linear_regression"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mne",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/amandalin047/rERP_2023"
+"Bug Tracker" = "https://github.com/amandalin047/rERP_2023/issues"

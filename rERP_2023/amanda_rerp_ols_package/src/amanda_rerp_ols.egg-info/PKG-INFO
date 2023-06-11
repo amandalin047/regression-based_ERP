@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: amanda-rerp-ols
+Version: 0.0.2
+Summary: An extension of mne.stats.linear_regression
+Author-email: Szu-Chi Amanda Lin <amanda.lin0103@gmail.com>
+Project-URL: Homepage, https://github.com/amandalin047/rERP_2023
+Project-URL: Bug Tracker, https://github.com/amandalin047/rERP_2023/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+## amandas_rerp_ols
+- An extension of `mne.stats.linear_regression`

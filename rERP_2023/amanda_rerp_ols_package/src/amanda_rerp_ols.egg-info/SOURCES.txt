@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/amanda_rerp_ols/__init__.py
+src/amanda_rerp_ols/my_functions.py
+src/amanda_rerp_ols.egg-info/PKG-INFO
+src/amanda_rerp_ols.egg-info/SOURCES.txt
+src/amanda_rerp_ols.egg-info/dependency_links.txt
+src/amanda_rerp_ols.egg-info/requires.txt
+src/amanda_rerp_ols.egg-info/top_level.txt
