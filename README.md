@@ -1,3 +1,24 @@
+---
+type: "project" # DON'T TOUCH THIS ! :)
+date: "2023-06-11" 
+# Regression-Modelling ERPs (and More!)
+
+# Sole author
+name: [Szu-Chi Amanda Lin]
+
+# Your project GitHub repository URL
+github_repo: https://github.com/amandalin047/Amanda_BrainHack_2023
+
+# List +- 4 keywords that best describe your project within []. Note that the project summary also involves a number of key words. Those are listed on top of the [github repository](https://github.com/brainhack-school2020/project_template), click `manage topics`.
+# Please only lowercase letters
+tags: [EEG/ERP, Python, regression, JavaScript]
+
+# Summarize your project in < ~75 words. This description will appear at the top of your page and on the list page with other projects..
+
+summary: "Emotion perception is contextualized. However, how emotional context modulates word processing is unclear. We regression-fitted raw EEG data to test for emotional valence effects. The results revealed a widespread effect of context valnece, as well as a plausibility N400 waveform, well replicating the past ERP literature. Moreover, as we plan on conducting a subsequent experiment to follow up on the findings the present study has revealed, this project also includes the code for constructing experimental stimuli."
+---
+<!-- This is an html comment and this won't appear in the rendered page. You are now editing the "content" area, the core of your description. Everything that you can do in markdown is allowed below. We added a couple of comments to guide your through documenting your progress. -->
+
 # Regression-Modelling ERPs (and More!)
 ## Background
 <img src="https://github.com/amandalin047/Amanda_BrainHack_2023/blob/master/inline_img/binned_results.png" alt="Grand Average ERPs" width="900" height="400">
