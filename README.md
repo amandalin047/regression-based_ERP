@@ -70,6 +70,7 @@ This project has implemented the following programming languages and brain imagi
     + A frontally distributed effect of word emotionality during 400ms to 700ms.
     + These findings showed that linguistic emotional context modulates subsequent word processing over and beyond sentence constraint and word emotionality, corroborating robust contextualized emotion processing in reading.
 <p>&nbsp</p><img src="https://github.com/amandalin047/Amanda_BrainHack_2023/blob/master/inline_img/rerp_coef.png" alt="rERP Coefficients" width="700" height="700">
+
 - **Stimui Construction**
     + A great learning oppurtunity as we've come to realize which response collection methods are more efficient (and less tedious). 
     + A nice, albeit still under construction, pipeline for collecting and sorting ratings responses.
