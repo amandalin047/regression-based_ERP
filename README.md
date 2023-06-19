@@ -51,7 +51,6 @@ This project has implemented the following programming languages and brain imagi
     + Two sessions in April with Prof. Kara Federmeier from the University of Illinois Urbana-Champaign pointed me towards a new direction, namely to group the regression coefficients into spatiotemperal ROIs, which largely reduced the number of multiple comparisons for which I needed to correct.
     + The class attributes and methods in the program were substantially modified and revised soon after to improve run-time efficiency due to issues related to automatically dying Jupyter kernels in WSL2.
     + The EEG Toolbox under Matlab differs from MNE-Python in many respects. Having been initially trained in Matlab, I aspire to create Python functions with which Matlab users will feel more familiar, such as bin descriptor text files and the moving-window peak-to-peak method for artifact detection. To this aim, other EEG-related Python notebooks/scripts included in this repository were subsequently developed in late April through May.
-<p>&nbsp</p><img src="https://github.com/amandalin047/Amanda_BrainHack_2023/blob/master/inline_img/rerp_coef.png" alt="rERP Coefficients" width="700" height="700">
 
 - **Stimuli Construction**
     + I started developing the Python code for compiling ratings Excel sheets roughly around March.
@@ -70,6 +69,7 @@ This project has implemented the following programming languages and brain imagi
     + Greater implausibility elicited more negative and then more positive responses during 250-500ms and 600-1000ms, respectively, over central-posterior regions, which well-replicated the past ERP literature on the N400 plausibility effect and thus provided justification for our regression model. Further, this plausibility effect was not modulated by context valence, suggesting no evidence for the Affective Primacy hypothesis in sentence comprehension where one would've expected a significant interaction between the two.    
     + A frontally distributed effect of word emotionality during 400ms to 700ms.
     + These findings showed that linguistic emotional context modulates subsequent word processing over and beyond sentence constraint and word emotionality, corroborating robust contextualized emotion processing in reading.
+<p>&nbsp</p><img src="https://github.com/amandalin047/Amanda_BrainHack_2023/blob/master/inline_img/rerp_coef.png" alt="rERP Coefficients" width="700" height="700">
 - **Stimui Construction**
     + A great learning oppurtunity as we've come to realize which response collection methods are more efficient (and less tedious). 
     + A nice, albeit still under construction, pipeline for collecting and sorting ratings responses.
