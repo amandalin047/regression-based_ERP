@@ -1,7 +1,8 @@
 ---
 type: "project" # DON'T TOUCH THIS ! :)
-date: "2023-06-11" 
-# Regression-Modelling ERPs (and More!)
+date: "2020-05-16" # Date you first upload your project.
+# Title of your project (we like creative title)
+title: "Regression-Modelling ERPs (and More!)"
 
 # Sole author
 name: [Szu-Chi Amanda Lin]
