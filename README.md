@@ -41,6 +41,8 @@ This project has implemented the following programming languages and brain imagi
 - Multiple Jupyter Notenooks (.ipynb), which also have the results clearly illustrated with nice data visualization
 - Python scripts (.py)
 - A Google Apps Script (.gs)
+  
+[Find in the `amanda_rerp_ols_package` folder under `rERP_2023` a mini pip-installable Python package I uploaded onto PyPI. Not only is it an extension of the MNE built-in `mne.stats.linear_regression` method, but I also wrapped **my calculated-by-hand solution matrix into a user-defined class** (a Python named tuple, actually) as the return object.](https://github.com/amandalin047/Amanda_BrainHack_2023/tree/master/rERP_2023/amanda_rerp_ols_package)
 
 
 # Results
