@@ -63,7 +63,7 @@ This project has implemented the following programming languages and brain imagi
 ## Skillsets Learned
 - **MNE-Python**: As a math undergraduate, I was initially trained in C++ and never formally took Python (I could read and code in Python as languages that support OOP share some similarities, yet I was far from proficient). It was not easy-peasy to start a Python program from scratch with the limited syntax I knew at the time; I'd spent countless hours Googling, sifting through threads on GitHub and Stack Overflow. As such, I genuinely find amazing how much I've learned and matured this semester in terms of Python programming skills, not only through my own project, but also as a TA working with the students.
 - **Statistical Models**: Statistics was _not_ a required undergraduate course in the Department of Mathematics (basic probablity theory was, though). I only took introductory stats as an elective, so I had but a vague idea of statistical modelling when I started off with this project. Yet as hands-on experiences often are great ways to learn, I've been implementing models I never knew before, and I do look forward to trying out different, more complicated ones.
-- **JavaScript**: I really went from zero on this. The immediate need for an automated Gmail gave me an miraculous adreneline boost and had me picking up the language in several hours — not sure how I did it, but I'm glad it worked!
+- **JavaScript**: I really went from zero on this. The immediate need for an automated Gmail gave me a miraculous adreneline boost and had me picking up the language in several hours — not sure how I did it, but I'm glad it worked!
 
 
 ## Results
