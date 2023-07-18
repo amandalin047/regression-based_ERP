@@ -33,7 +33,7 @@ This project has implemented the following programming languages and brain imagi
 - JavaScript
 
 ## Data
-- **EEG Analyses**: A 20-subject language experiment EEG dataset collected by a lab senior several years ago. (_The data files on this repository are currently blank dummy files._) Besides planning on adding 10 more participants to the original and recruiting 30 young adults for the following-up experiment, my advisor (Dr. Charlene Lee) and I also aim to ultimately put our lab data in BIDS.
+- **EEG Analyses**: A 20-subject language experiment EEG dataset collected by a lab senior several years ago. (_The data files on this repository are currently blank dummy files._) Besides planning on adding 10 more participants to the original and recruiting 30 young adults for the follow-up experiment, my advisor (Dr. Charlene Lee) and I also aim to ultimately put our lab data in BIDS.
 - **Stimuli Construction**: Participant Gmails and Excel sheets sent as attachments.
 
 ## Deliverables
