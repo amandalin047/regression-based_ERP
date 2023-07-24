@@ -13,7 +13,7 @@ def parse_bdf(BDF_txt):
     f1 = open(BDF_txt)
     f2 = f1.read().split()
     f1.close()
-    ev_seq = [f2[3+4*i] for i in range(int((len(f2))/4))]
+    ev_seq, bins = [f2[3+4*i] for i in range(int((len(f2))/4))], [f2[2+4*i] for i in range(int((len(f2))/4))]
     tlock = [i.split('.') for i in ev_seq]
     
     parse1 = [[[] for j in i] for i in tlock]
@@ -30,11 +30,11 @@ def parse_bdf(BDF_txt):
                     u = int(findall(r'\d+', z)[1])
                     parse2[i][j].append([str(n) for n in list(range(l, u+1))])
                 else: parse2[i][j].append(findall(r'\d+', z))
-    return parse2
+    return parse2, bins
 
 
 def raw_revised(raw, BDF_txt):
-    bdf = parse_bdf(BDF_txt)
+    bdf, bins = parse_bdf(BDF_txt)
     
     annot = copy.deepcopy(raw.annotations)
     items = {}
@@ -44,7 +44,6 @@ def raw_revised(raw, BDF_txt):
             items[key].append(annot[i][key])
             
     ev = [bdf[i][1][0] for i in range(len(bdf))]
-    bins = [str(n) for n in list(range(301, 301+len(bdf)))]
     
     for i in range(len(bdf)):
         for j in range(len(annot)):
@@ -78,15 +77,14 @@ def raw_revised(raw, BDF_txt):
         except: pass
     
     new_raw = raw.copy().set_annotations(new_annot)
-    return new_raw
+    return new_raw, bins
 
 
 def bin_based_epoch(raw, BDF_txt, tmin, tmax, bc=None):
-    new_raw = raw_revised(raw, BDF_txt)
+    new_raw, bins = raw_revised(raw, BDF_txt)
     ev_arr, ev_id = mne.events_from_annotations(new_raw)
     
     bdf = parse_bdf(BDF_txt)
-    bins = [str(n) for n in list(range(301, 301+len(bdf)))]
     
     epoch = mne.Epochs(new_raw, ev_arr, event_id=[ev_id[k] for k in bins], tmin=tmin, tmax=tmax, baseline=bc,
                        reject_by_annotation=True)
