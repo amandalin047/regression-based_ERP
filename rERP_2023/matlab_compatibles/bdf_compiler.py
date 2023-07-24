@@ -1,4 +1,5 @@
 # the bins in BDF must be mutually exclusive
+# certain kinds of bin descriptor syntax are not yet included, e.g., {t<200-1000>201} for response time ranges
 
 from collections import OrderedDict
 from collections import namedtuple
