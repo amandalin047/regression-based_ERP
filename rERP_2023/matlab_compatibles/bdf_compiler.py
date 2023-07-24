@@ -84,11 +84,12 @@ def bin_based_epoch(raw, BDF_txt, tmin, tmax, bc=None):
     new_raw, bins = raw_revised(raw, BDF_txt)
     ev_arr, ev_id = mne.events_from_annotations(new_raw)
     
-    bdf = parse_bdf(BDF_txt)
+    my_dict = {}
+    for k in bins: my_dict[k] = ev_id[k]
     
-    epoch = mne.Epochs(new_raw, ev_arr, event_id=[ev_id[k] for k in bins], tmin=tmin, tmax=tmax, baseline=bc,
+    epochs = mne.Epochs(new_raw, ev_arr, event_id=my_dict, tmin=tmin, tmax=tmax, baseline=bc,
                        reject_by_annotation=True)
-    return epoch
+    return epochs
 
 
 def MWPtP(raw, epochs, ecodes, tmin, tmax, baseline, channel, step, win, thresh):   # ecodes must be a list of strings
