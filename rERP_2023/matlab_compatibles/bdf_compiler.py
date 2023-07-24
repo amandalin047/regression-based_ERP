@@ -49,8 +49,8 @@ def raw_revised(raw, BDF_txt):
     for i in range(len(bdf)):
         for j in range(len(annot)):
             if annot[j]['description'] in bdf[i][1][0]:    # if the event code is the event time-locked to
-                boo = [[[] for k in j] for j in bdf[i]]
-                temp = [[True for k in j] for j in bdf[i]]
+                boo = [[[] for g in h] for h in bdf[i]]
+                temp = [[True for g in h] for h in bdf[i]]
                 for k, z in enumerate(bdf[i][0]):
                     try:
                         if annot[j-(len(bdf[i][0])-k)]['description'] in z: boo[0][k] = True
