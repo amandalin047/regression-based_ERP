@@ -1,6 +1,6 @@
 # the bins in BDF must be mutually exclusive
 # certain kinds of bin descriptor syntax are not yet included, e.g., {t<200-1000>201} for response time ranges
-# also don't include spaces in the bin names, e.g., LVF Grammatical Correct, for it would cause oarsing errors - am working on it
+# also don't include spaces in the bin names, e.g., LVF Grammatical Correct, for it will cause parsing errors - am working on it
 
 from collections import OrderedDict
 from collections import namedtuple
