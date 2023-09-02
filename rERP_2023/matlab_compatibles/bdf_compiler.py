@@ -80,7 +80,28 @@ def raw_revised(raw, BDF_txt):
     
     new_raw = raw.copy().set_annotations(new_annot)
     return new_raw, bins
+    
 
+def sync_AD(raw, elist):
+    f1 = open(elist, 'r')
+    f2 = f1.readlines()
+    f1.close
+    f3 = [i.split() for i in f2]
+    
+    annot = copy.deepcopy(raw.annotations)
+    items = {}
+    for j, key in enumerate(annot[0].keys()): items[key] = []
+    for i in range(len(annot)):
+        for j, key in enumerate(annot[i].keys()):
+            items[key].append(annot[i][key])
+    
+    items['description'] = [items['description'][i] if int(x[8])==0 else items['description'][i]+'bad' for i,x in enumerate(f3)]
+    new_annot = mne.Annotations(np.array(items['onset'], dtype=object),
+                                np.array(items['duration'], dtype=object),
+                                np.array(items['description'], dtype=object), orig_time=None, ch_names=None)
+    new_raw = raw.copy().set_annotations(new_annot)
+    return new_raw
+    
 
 def bin_based_epoch(raw, BDF_txt, tmin, tmax, bc=None):
     new_raw, bins = raw_revised(raw, BDF_txt)
