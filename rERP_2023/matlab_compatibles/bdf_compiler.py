@@ -45,7 +45,7 @@ def raw_revised(raw, BDF_txt):
         for j, key in enumerate(annot[i].keys()):
             items[key].append(annot[i][key])
             
-    ev = [bdf[i][1][0] for i in range(len(bdf))]
+    #ev = [bdf[i][1][0] for i in range(len(bdf))]
     
     for i in range(len(bdf)):
         for j in range(len(annot)):
@@ -72,11 +72,11 @@ def raw_revised(raw, BDF_txt):
                                 np.array(items['duration'], dtype=object),
                                 np.array(items['description'], dtype=object), orig_time=None, ch_names=None)
     
-    ev_arr, ev_dict = mne.events_from_annotations(raw, event_id='auto')
-    for i, x in enumerate(items['description']):
-        try:
-            if x in bins: ev_arr[i][2] = int(x)
-        except: pass
+    #ev_arr, ev_dict = mne.events_from_annotations(raw, event_id='auto')
+    #for i, x in enumerate(items['description']):
+        #try:
+            #if x in bins: ev_arr[i][2] = int(x)
+        #except: pass
     
     new_raw = raw.copy().set_annotations(new_annot)
     return new_raw, bins
