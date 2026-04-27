@@ -31,4 +31,4 @@ dist/
 .mypy_cache/
 
 # ----- Data files -----
-stimuli_and_data/
+data/
