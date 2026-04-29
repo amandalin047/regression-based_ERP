@@ -14,8 +14,22 @@ def get_sentences_and_splits(file_dir: str, file_name: str, sheet_name: str | No
                              frame_col: str, word_cols: list, prompt: str | None=None):
     cols = [frame_col] + word_cols
     df = pd.read_excel(f"{file_dir}/{file_name}", sheet_name=sheet_name)[cols]
-    df = df.map(lambda cell: cell.replace(",", "，") if isinstance(cell, str) else cell)
-    df = df.map(lambda cell: cell.replace(".", "。") if isinstance(cell, str) else cell)
+    
+    def clean_punc(cell):
+        if isinstance(cell, str):
+            to_replace = {",": "，",
+                      ".": "。",
+                      " ，": "，",
+                      "， ": "，",
+                      " 。": "。",
+                      "。 ": "。"}
+            for k, v in to_replace.items():
+                cell = cell.replace(k, v)
+        return cell
+    
+    df = df.map(clean_punc)
+    df = df.map(lambda cell: cell.strip() if isinstance(cell, str) else cell)
+
     frames = df[frame_col].to_list()
 
     if prompt is None:
@@ -38,7 +52,7 @@ def get_word_logprobs(*, tokens: list, split_sentences: list,
                       ids: np.ndarray, token_logprobs: np.ndarray,
                       special_tokens: tuple | list | None=None,
                       special_token_ids: tuple| list| None=None,
-                      other_tokens: tuple | list | None=None) -> np.ndarray:
+                      other_tokens: tuple | list | None=None) -> list:
     if special_tokens is None or special_token_ids is None:   
         print(f"Special tokens or special token IDs not set.\nDefaulting to 0 = '[PAD]'; 101 = '[CLS]'; 102 = '[SEP]'.")
         special_tokens = SPECIAL_TOKENS
@@ -51,18 +65,22 @@ def get_word_logprobs(*, tokens: list, split_sentences: list,
     
     spans = [[0] for _ in tokens_no_special]
     for i, (trow, srow) in enumerate(zip(tokens_no_special, split_sentences)):
+        sucess = True
         chunk = ""
         idx = 0
         for j, t in enumerate(trow):
             if t in other_tokens:
-                print(f"{t} found in sentence index {i}, token index {j}:\n  {trow}")
+                print(f"{t} found in sentence index {i}, token index {j}:\n  {trow} \n  {srow}")
+                sucess = False
+                break
             if srow[idx].startswith(chunk + t):
                 chunk += t
             else:
                 chunk = t
                 idx += 1
                 spans[i].append(j)
-        spans[i].append(len(tokens_no_special[i]))
+        if sucess:
+            spans[i].append(len(tokens_no_special[i]))
     # print(spans) <- for debugging
 
     check_span = [["".join(trow[seq[i]: seq[i+1]]) for i in range(len(seq)-1)]
@@ -76,7 +94,7 @@ def get_word_logprobs(*, tokens: list, split_sentences: list,
     token_logprobs_masked = [tprobs[~ np.isin(_id, special_token_ids)] for _id, tprobs in zip(ids, token_logprobs)]
     word_logprobs = [[sum(tprobs[seq[i]: seq[i+1]]) for i in range(len(seq)-1)]
                                                     for tprobs, seq in zip(token_logprobs_masked, spans)]
-    return np.array(word_logprobs)
+    return word_logprobs
 
 def get_llm_token_logprobs(sentences: list,
                            model: AutoModelForCausalLM, tokenizer: BertTokenizerFast,
@@ -158,4 +176,3 @@ if __name__ == "__main__":
                                       special_tokens=(pad_token, cls_token, sep_token),
                                       special_token_ids=(pad_id, cls_id, sep_id),
                                       other_tokens=OTHER_TOKENS)
-    np.save(f"{file_dir}/CRYSTAL_word_logprobs.npy", word_logprobs)
