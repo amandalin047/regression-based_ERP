@@ -11,9 +11,9 @@ MAX_LENGTH = 256
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def get_sentences_and_splits(file_dir: str, file_name: str, sheet_name: str | None, *,
-                             frame_col: str, word_cols: list, prompt: str | None=None):
-    cols = [frame_col] + word_cols
-    df = pd.read_excel(f"{file_dir}/{file_name}", sheet_name=sheet_name)[cols]
+                             frame_col: str, word_cols: list, 
+                             group_by: str | None=None, 
+                             prompt: str | None=None) -> tuple | list:
     
     def clean_punc(cell):
         if isinstance(cell, str):
@@ -27,26 +27,41 @@ def get_sentences_and_splits(file_dir: str, file_name: str, sheet_name: str | No
                 cell = cell.replace(k, v)
         return cell
     
+    def for_each_group(df_per_group):
+        frames = df_per_group[frame_col].to_list()
+
+        if prompt is None:
+            print(f"Prompts is not set. Be sure that the stimuli presentation did not include a judgement task with a prompt lie `通順嗎？`")
+            split_sentences = [df_per_group.iloc[i][word_cols].dropna().to_list()
+                                                                for i in range(len(df_per_group))]
+    
+        else:
+            last_words = split_sentences = [df_per_group.iloc[i][word_cols].dropna().to_list()[-1]
+                                                                for i in range(len(df_per_group))]
+            if last_words.count(prompt) != len(last_words):
+                raise ValueError(f"There's at least one sentence whose final word is not {prompt}!")
+            split_sentences = [df_per_group.iloc[i][word_cols].dropna().to_list()[:-1]
+                                                                for i in range(len(df_per_group))]
+
+        sentences = [f + s[-1] for f, s in zip(frames, split_sentences)]
+        sentences_stitched = ["".join(s) for s in split_sentences]
+        assert sentences_stitched == sentences, "Splitted sentnce and original sentence frames mistmatch! Please check for character or punctuation mismatch!"
+
+        return sentences, split_sentences
+    
+    cols =  [frame_col] + word_cols if group_by is None else [frame_col] + word_cols + [group_by]
+    df = pd.read_excel(f"{file_dir}/{file_name}", sheet_name=sheet_name)[cols]
     df = df.map(clean_punc)
     df = df.map(lambda cell: cell.strip() if isinstance(cell, str) else cell)
 
-    frames = df[frame_col].to_list()
-
-    if prompt is None:
-        print(f"Prompts is not set. Be sure that the stimuli presentation did not include a judgement task with a prompt lie `通順嗎？`")
-        split_sentences = [df.iloc[i][word_cols].dropna().to_list() for i in range(len(df))]
-    
+    if group_by is None:
+        return for_each_group(df)
     else:
-        last_words = split_sentences = [df.iloc[i][word_cols].dropna().to_list()[-1] for i in range(len(df))]
-        if last_words.count(prompt) != len(last_words):
-            raise ValueError(f"There's at least one sentence whose final word is not {prompt}!")
-        split_sentences = [df.iloc[i][word_cols].dropna().to_list()[:-1] for i in range(len(df))]
+        groups = df[group_by].unique()
+        df_per_group_list = [df.loc[df[group_by] == i] for i in groups]
+        sent_split_sent_list = [for_each_group(df_per_group) for df_per_group in df_per_group_list]
+        return sent_split_sent_list
 
-    sentences = [f + s[-1] for f, s in zip(frames, split_sentences)]
-    sentences_stitched = ["".join(s) for s in split_sentences]
-    assert sentences_stitched == sentences, "Splitted sentnce and original sentence frames mistmatch! Please check for character or punctuation mismatch!"
-
-    return sentences, split_sentences
 
 def get_word_logprobs(*, tokens: list, split_sentences: list,
                       ids: np.ndarray, token_logprobs: np.ndarray,
@@ -89,7 +104,7 @@ def get_word_logprobs(*, tokens: list, split_sentences: list,
     aligned = np.array([check == split for check, split in zip(check_span, split_sentences)])
     not_aligned_where = np.where(aligned == False)[0]
     if not_aligned_where.size != 0:
-        print(f"sentence indices where alignment failed: {not_aligned_where}")
+        print(f">> Sentence indices where alignment failed: {not_aligned_where}\n")
     
     token_logprobs_masked = [tprobs[~ np.isin(_id, special_token_ids)] for _id, tprobs in zip(ids, token_logprobs)]
     word_logprobs = [[sum(tprobs[seq[i]: seq[i+1]]) for i in range(len(seq)-1)]
