@@ -84,8 +84,12 @@ def get_word_logprobs(*, tokens: list, split_sentences: list,
         chunk = ""
         idx = 0
         for j, t in enumerate(trow):
-            if t in other_tokens:
+            if t in other_tokens or t.startswith("#"):
                 print(f"{t} found in sentence index {i}, token index {j}:\n  {trow} \n  {srow}")
+                sucess = False
+                break
+            if idx >= len(srow):
+                print(f"Index out of range in sentence index {i}, token index {j}; idx = {idx}:\n  {trow} \n  {srow}")
                 sucess = False
                 break
             if srow[idx].startswith(chunk + t):
@@ -132,9 +136,12 @@ def get_llm_token_logprobs(sentences: list,
     assert inputs["attention_mask"].shape == inputs["input_ids"].shape
 
     inputs = {k: v.to(device) for k, v in inputs.items()}
-    ids = inputs["input_ids"]      
-    tokens = [tokenizer.convert_ids_to_tokens(i) for i in ids]
-
+    ids = inputs["input_ids"]     
+    ids_cpu = ids.detach().cpu().numpy()  # tokenizer usually expects integer IDs, not tensors 
+    tokens = [tokenizer.convert_ids_to_tokens(i) for i in ids_cpu]
+    
+    model.to(device)
+    model.eval()
     with torch.inference_mode():
         outputs = model(**inputs,
                         output_hidden_states=False)
@@ -151,9 +158,8 @@ def get_llm_token_logprobs(sentences: list,
     token_logprobs = token_logprobs.detach().cpu().numpy()
     # token_logprobs = np.array([[logprobs[i, j, idx] for j, idx in enumerate(target_ids[i])]
                                        # for i in range(target_ids.size(0))]) <- works, but too many for loops
-    ids = ids.detach().cpu().numpy()
-
-    return ids, tokens, token_logprobs
+    
+    return ids_cpu, tokens, token_logprobs
 
 
 if __name__ == "__main__":
