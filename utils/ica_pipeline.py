@@ -236,9 +236,9 @@ def perform_ica(*, raw_to_clean, raw_for_ica,
             print(f"Blink-like component indices identified via correlation (might be empty if no component crosses corr_threshold = {corr_threshold}): {eog_indices}.")
             print(f"Manaul inspection mode: ICA not applied. Estimating sources (from 0.1 - 30 Hz IIR order 2 bandpass filtered raw data) given the ICA unmixing matrix. Please also check ica.plot_properties() for better judgement.")
         sources = ica.get_sources(raw_clean)
-        return sources, ica
+        return sources, eog_indices, ica
     
-    return raw_clean, ica
+    return raw_clean, eog_indices, ica
 
 
 if __name__ == "__main__":
