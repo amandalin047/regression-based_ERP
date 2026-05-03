@@ -74,7 +74,10 @@ def eeglab_logic_bin_epoch(raw: mne.io.Raw,
     def get_time_locks_descs(position_range: tuple,
                              cond_descs: Iterable):
         word_positions = [f"w{i}" for i in range(position_range[0], position_range[1]+1)]
-        time_locks_descs = [f"{w}/{c}" for w in word_positions for c in cond_descs]
+        if cond_descs:
+            time_locks_descs = [f"{w}/{c}" for w in word_positions for c in cond_descs]
+        else:
+            time_locks_descs = word_positions
         return time_locks_descs
     
     df_annot = pd.DataFrame(raw.annotations)
