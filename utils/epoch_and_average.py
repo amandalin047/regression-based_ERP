@@ -53,7 +53,7 @@ def revise_annot(df_annot: pd.DataFrame, *,
     annot_revised = mne.Annotations(onset=df_annot["onset"], duration=df_annot["duration"], description=desc_revised)
     return annot_revised
 
-def eeglab_bin_epoch(raw: mne.io.Raw,
+def eeglab_logic_bin_epoch(raw: mne.io.Raw,
                      fixation: str,
                      non_final: str,
                      item_codes: list|tuple,
@@ -61,7 +61,11 @@ def eeglab_bin_epoch(raw: mne.io.Raw,
                      conditions_list: list,
                      tmin: float, tmax: float,
                      baseline: tuple | None,
+                     reject_peak_to_peak: dict | None,  # rejection (maximum peak-to-peak) is based on a signal difference calculated for each channel separately 
+                                                        # applying baseline correction does not affect the rejection procedure as the difference will be preserved.
+                                                        # peak-to-peak unit is in volts (V) for eeg  and eog channels
                      resample: float | None=None,
+                     preload: bool=True,
                      verbose: bool=False):
     """condtitions_list should be a list of dicts, e.g.,
        [{'high_constraint': (240, 241, 242, 243), 'low_constraint': (244, 245, 246, 247)},
@@ -93,7 +97,12 @@ def eeglab_bin_epoch(raw: mne.io.Raw,
                             events=events, event_id=time_locks,
                             tmin=tmin, tmax=tmax, baseline=baseline,  
                             on_missing="raise",
-                            preload=True,
+                            reject=reject_peak_to_peak,   # rejct_tmin and reject_tmax both default to None
+                                                          # so the entire epoch is considered
+                            detrend=None,                 # no detrending (already detrended externally using scipy before filtering)
+                            reject_by_annotation=False,   # no 'bads' annotations anyway
+                            event_repeated="error",
+                            preload=preload,
                             verbose=verbose)
         if resample is not None:
             epochs = epochs.resample(sfreq=resample)
